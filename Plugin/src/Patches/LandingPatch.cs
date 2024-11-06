@@ -18,7 +18,6 @@ public class LandingPatch
         private static void Prefix(StartOfRound __instance, ref bool __state)
         {
             __state = __instance.currentPlanetPrefab.activeSelf;
-            LandFromOrbit.Log.LogError($"Was: {__state}");
         }
         
         private static void Postfix(StartOfRound __instance, ref bool __state)
@@ -26,13 +25,12 @@ public class LandingPatch
             var animator = __instance.shipAnimatorObject.gameObject.GetComponent<Animator>();
             _cachedSpeed = animator.speed;
             
-            LandFromOrbit.Log.LogError($"Check: {__state}");
             if (__state && !__instance.currentPlanetPrefab.activeSelf)
             {
                 animator.speed = 0f;
                 animator.Play(ShipOpen);
                 
-                LandFromOrbit.Log.LogError("Triggering animator");
+                LandFromOrbit.Log.LogInfo("Triggering animator");
             }
         }
     }
@@ -66,7 +64,7 @@ public class LandingPatch
     
     private static void OnLandingSequence()
     {
-        LandFromOrbit.Log.LogError("Resetting animator speed");
+        LandFromOrbit.Log.LogInfo("Resetting animator speed");
         var animator = StartOfRound.Instance.shipAnimatorObject.gameObject.GetComponent<Animator>();
         animator.speed = _cachedSpeed;
     }
