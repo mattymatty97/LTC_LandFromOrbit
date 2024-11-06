@@ -42,7 +42,7 @@
         <BepInExPluginGuid>$(ModGUID)</BepInExPluginGuid>
         <BepInExPluginName>$(ModName)</BepInExPluginName>
     </PropertyGroup>
-
+    
     <!-- Thunderstore Publish Profile Follows:-->
     <PropertyGroup>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
