@@ -9,9 +9,9 @@
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <FileVersion>$(Version)</FileVersion>
         <InformationalVersion>$(Version)</InformationalVersion>
-        <Authors>LethalCompanyModding</Authors>
+        <Authors>mattymatty97</Authors>
 
-        <AssemblyDescription>Generate Icons for scrap at runtime, replacing the gear icon.</AssemblyDescription>
+        <AssemblyDescription>Put the ship in the air before scene loading</AssemblyDescription>
 
         <!-- Assembly Metadata -->
         <AssemblyConfiguration>Release</AssemblyConfiguration>
