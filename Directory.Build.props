@@ -9,7 +9,7 @@
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <FileVersion>$(Version)</FileVersion>
         <InformationalVersion>$(Version)</InformationalVersion>
-        <Authors>mattymatty97</Authors>
+        <Authors>mattymatty</Authors>
 
         <AssemblyDescription>Put the ship in the air before scene loading</AssemblyDescription>
 
