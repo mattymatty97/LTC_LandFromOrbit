@@ -12,7 +12,7 @@ public class LandingPatch
 
     private static float _cachedSpeed = 1f;
     private static readonly int ShipOpen = Animator.StringToHash("ShipOpen");
-    private static readonly int ShipIdle = Animator.StringToHash("ShipIdle");
+    private static readonly int OpenShip = Animator.StringToHash("OpenShip");
 
     [HarmonyPatch(typeof(StartOfRound), nameof(StartOfRound.SceneManager_OnLoad))]
     private static class OnSceneLoad{
@@ -32,25 +32,6 @@ public class LandingPatch
                 animator.Play(ShipOpen);
                 
                 LandFromOrbit.Log.LogInfo("Triggering animator");
-            }
-        }
-    }
-    
-    [HarmonyPatch(typeof(StartOfRound), nameof(StartOfRound.SceneManager_OnUnloadComplete))]
-    private static class OnSceneUnLoad{
-        private static void Prefix(StartOfRound __instance, ref bool __state)
-        {
-            __state = __instance.currentPlanetPrefab.activeSelf;
-        }
-        
-        private static void Postfix(StartOfRound __instance, ref bool __state)
-        {
-            if (!__state && __instance.currentPlanetPrefab.activeSelf)
-            {
-                var animator = __instance.shipAnimatorObject.gameObject.GetComponent<Animator>();
-                animator.Play(ShipIdle);
-                
-                LandFromOrbit.Log.LogInfo("Resetting animator");
             }
         }
     }
@@ -87,6 +68,7 @@ public class LandingPatch
         LandFromOrbit.Log.LogInfo("Resetting animator speed");
         var animator = StartOfRound.Instance.shipAnimatorObject.gameObject.GetComponent<Animator>();
         animator.speed = _cachedSpeed;
+        animator.ResetTrigger(OpenShip);
     }
     
 }
