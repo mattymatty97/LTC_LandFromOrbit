@@ -1,3 +1,6 @@
+### v1.1.2
+- re-align the activation of the thruster sounds
+
 ### v1.1.1
 - do it the proper way (thx Zaggy)
 

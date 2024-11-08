@@ -13,6 +13,7 @@ public class LandingPatch
     private static float _cachedSpeed = 1f;
     private static readonly int ShipOpen = Animator.StringToHash("ShipOpen");
     private static readonly int OpenShip = Animator.StringToHash("OpenShip");
+    private static readonly int ShipLeave = Animator.StringToHash("ShipLeave");
 
     [HarmonyPatch(typeof(StartOfRound), nameof(StartOfRound.SceneManager_OnLoad))]
     private static class OnSceneLoad{
@@ -24,12 +25,18 @@ public class LandingPatch
         private static void Postfix(StartOfRound __instance, ref bool __state)
         {
             var animator = __instance.shipAnimatorObject.gameObject.GetComponent<Animator>();
+            var audio = __instance.elevatorTransform.Find("ThrusterAmbientAudio")?.GetComponent<AudioSource>();
             _cachedSpeed = animator.speed;
             
             if (__state && !__instance.currentPlanetPrefab.activeSelf)
             {
                 animator.speed = 0f;
                 animator.Play(ShipOpen);
+
+                if (audio)
+                {
+                    audio.mute = true;
+                }
                 
                 LandFromOrbit.Log.LogInfo("Triggering animator");
             }
@@ -66,9 +73,16 @@ public class LandingPatch
     private static void OnLandingSequence()
     {
         LandFromOrbit.Log.LogInfo("Resetting animator speed");
-        var animator = StartOfRound.Instance.shipAnimatorObject.gameObject.GetComponent<Animator>();
-        animator.speed = _cachedSpeed;
+        var startOfRound = StartOfRound.Instance;
+        var animator = startOfRound.shipAnimatorObject.gameObject.GetComponent<Animator>();
+        var audio = startOfRound.elevatorTransform.Find("ThrusterAmbientAudio")?.GetComponent<AudioSource>();
         animator.ResetTrigger(OpenShip);
+        animator.speed = _cachedSpeed;
+        if (audio)
+        {
+            audio.mute = false;
+            audio.Play();
+        }
     }
     
 }
